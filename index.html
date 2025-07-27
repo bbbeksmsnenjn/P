@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Happy Birthday!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #fff5f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            color: #333;
+            overflow-x: hidden;
+        }
+        
+        /* Game Section */
+        .game-container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #ffcce6, #f8bbd0);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .game-title {
+            font-size: 6vw;
+            max-font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: #d81b60;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .balloon-container {
+            position: relative;
+            width: 100%;
+            max-width: 300px;
+            height: 60vh;
+            max-height: 400px;
+            margin-bottom: 2rem;
+        }
+        
+        .balloon {
+            position: absolute;
+            width: 15vw;
+            height: 20vw;
+            max-width: 60px;
+            max-height: 80px;
+            background-color: #ff4081;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            box-shadow: inset 7px -7px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+            animation: float 3s infinite alternate;
+        }
+        
+        .balloon:nth-child(2) {
+            background-color: #e91e63;
+            left: 30%;
+            top: 10%;
+            animation-delay: 0.5s;
+        }
+        
+        .balloon:nth-child(3) {
+            background-color: #c2185b;
+            right: 20%;
+            top: 20%;
+            animation-delay: 1s;
+        }
+        
+        .balloon:nth-child(4) {
+            background-color: #ad1457;
+            left: 15%;
+            top: 40%;
+            animation-delay: 1.5s;
+        }
+        
+        .balloon:nth-child(5) {
+            background-color: #880e4f;
+            right: 25%;
+            top: 50%;
+            animation-delay: 2s;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(-20px); }
+        }
+        
+        .balloon:hover {
+            transform: scale(1.1);
+        }
+        
+        .balloon:active {
+            transform: scale(0.9);
+        }
+        
+        .balloon.pop {
+            transform: scale(1.1);
+            opacity: 0;
+            transition: all 0.3s ease-out;
+        }
+        
+        .pop-animation {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background-image: url('https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/f2899654-a8db-48d2-a48b-843fc2bf0534.png');
+            background-size: contain;
+            z-index: 10;
+            pointer-events: none;
+            opacity: 0;
+        }
+        
+        .game-instructions {
+            margin-top: 1rem;
+            font-size: 1.2rem;
+            color: #d81b60;
+            text-align: center;
+        }
+        
+        .game-progress {
+            margin-top: 1rem;
+            font-size: 1.2rem;
+            color: #d81b60;
+        }
+        
+        /* Main Content */
+        .content {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            animation: fadeIn 1.5s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .photo-frame {
+            width: 90%;
+            max-width: 400px;
+            height: 25vh;
+            max-height: 200px;
+            border: 15px solid #fce4ec;
+            border-radius: 20px;
+            padding: 10px;
+            background-color: white;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+        
+        .photo-frame:hover {
+            transform: scale(1.05);
+        }
+        
+        .photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 20px;
+        }
+        
+        .birthday-title {
+            font-size: 8vw;
+            max-font-size: 3rem;
+            color: #d81b60;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            animation: colorChange 5s infinite;
+        }
+        
+        @keyframes colorChange {
+            0% { color: #d81b60; }
+            25% { color: #e91e63; }
+            50% { color: #c2185b; }
+            75% { color: #ad1457; }
+            100% { color: #d81b60; }
+        }
+        
+        .message {
+            font-size: 1rem;
+            width: 90vw;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+        
+        .message:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 10px;
+            background: linear-gradient(90deg, #f8bbd0, #f48fb1, #f06292, #ec407a, #e91e63, #d81b60);
+            border-radius: 15px 15px 0 0;
+        }
+        
+        .poem {
+            font-style: italic;
+            margin: 1.5rem 0;
+            color: #ad1457;
+        }
+        
+        .floating-balloon {
+            position: fixed;
+            pointer-events: none;
+            width: 40px;
+            height: 50px;
+            border-radius: 50%;
+            animation: floatUp 5s linear forwards;
+        }
+        
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-500px) rotate(45deg);
+                opacity: 0;
+            }
+        }
+        
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background-color: #f44336;
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .note {
+            font-size: 1rem;
+            color: #888;
+            margin-top: 1rem;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <audio id="birthdaySong" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" preload="auto"></audio>
+    <div class="game-container">
+        <h1 class="game-title">Tembak Balonnya!</h1>
+        <div class="balloon-container">
+            <div class="balloon">1</div>
+            <div class="balloon">2</div>
+            <div class="balloon">3</div>
+            <div class="balloon">4</div>
+            <div class="balloon">5</div>
+        </div>
+        <p class="game-instructions">Tembak semua 5 balon untuk melihat pesan ulang tahun!</p>
+        <p class="game-progress">Balon yang pecah: <span id="popped-count">0</span>/5</p>
+    </div>
+    
+    <div class="content">
+        <h1 class="birthday-title">Selamat Ulang Tahun! ❤️</h1>
+        
+        <div class="photo-frame">
+            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/426060e1-6e93-4c48-a81d-1615585d3e2e.png" alt="Happy Birthday text" style="background: linear-gradient(to right, #ffcce6, #f8bbd0)"/>
+        </div>
+        
+        <div class="message">
+            <p>Semoga semakin bertambah usia semakin sabar walau dikasi ujian kayak beban hidup hh,makin gumuzz tembem biar bisa aku remes pipinya,selalu jaga kesehatan ya..</p>
+            <p>Don't forget never give up!</p>
+            
+            <div class="poem">
+                <p>Bunga mawar bunga melati,</p>
+                <p>Met ultah sahabat manis yang bikin meleleh hati.</p>
+                <p>Semoga bahagia tak henti-henti,</p>
+                <p>Ceria, sehat, dan jodoh pun menghampiri</p>
+            </div>
+            
+            <p class="note">*Note: bisa melelehkan hati because dari kebaikannya yang besar, rasa tulus dan menghargai yang luar biasa, bisa bikin kata kata indah yang gak semua orang bisa.pokoknya keren!!</p>
+            
+            <p>Orang baik emang banyak, tapi yang selalu ada tanpa diminta tu langka.Ka adalah 1% dari 99% orang di bumi yang sulit buat dicari sampai planet lain sekalipun.</p>
+        </div>
+    </div>
+
+    <style>
+        .music-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #d81b60;
+            color: white;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+    </style>
+    <div class="music-control">🎵</div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const balloons = document.querySelectorAll('.balloon');
+            const poppedCount = document.getElementById('popped-count');
+            const gameContainer = document.querySelector('.game-container');
+            const content = document.querySelector('.content');
+            let count = 0;
+            
+            // Balloon popping functionality
+            balloons.forEach(balloon => {
+                balloon.addEventListener('click', function() {
+                    if (this.classList.contains('pop')) return;
+                    
+                    this.classList.add('pop');
+                    count++;
+                    poppedCount.textContent = count;
+                    
+                    // Create pop animation
+                    const pop = document.createElement('div');
+                    pop.className = 'pop-animation';
+                    pop.style.left = (this.offsetLeft - 20) + 'px';
+                    pop.style.top = this.offsetTop + 'px';
+                    pop.style.backgroundImage = 'none';
+                    pop.style.backgroundColor = this.style.backgroundColor || '#ff4081';
+                    pop.style.borderRadius = '50%';
+                    pop.style.opacity = '0.8';
+                    gameContainer.appendChild(pop);
+                    
+                    // Create confetti effect
+                    createConfetti(this.offsetLeft + 30, this.offsetTop + 40, this.style.backgroundColor || '#ff4081');
+                    
+                    // Remove pop element after animation
+                    setTimeout(() => {
+                        pop.remove();
+                    }, 500);
+                    
+                    // Check if all balloons are popped
+                    if (count === balloons.length) {
+                        setTimeout(() => {
+                            gameContainer.style.opacity = '0';
+                            setTimeout(() => {
+                                gameContainer.style.display = 'none';
+                                content.style.display = 'flex';
+                                startBalloonCelebration();
+                            }, 1000);
+                        }, 1000);
+                    }
+                });
+            });
+            
+            // Create confetti effect
+            function createConfetti(x, y, color) {
+                for (let i = 0; i < 15; i++) {
+                    setTimeout(() => {
+                        const confetti = document.createElement('div');
+                        confetti.className = 'confetti';
+                        confetti.style.backgroundColor = color;
+                        confetti.style.left = x + 'px';
+                        confetti.style.top = y + 'px';
+                        confetti.style.opacity = '1';
+                        confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+                        
+                        const angle = Math.random() * Math.PI * 2;
+                        const velocity = 3 + Math.random() * 3;
+                        const lifetime = 2000 + Math.random() * 1000;
+                        
+                        document.body.appendChild(confetti);
+                        
+                        let start = Date.now();
+                        const animate = () => {
+                            const time = Date.now() - start;
+                            const progress = time / lifetime;
+                            
+                            if (progress >= 1) {
+                                confetti.remove();
+                                return;
+                            }
+                            
+                            confetti.style.left = x + Math.cos(angle) * velocity * time * 0.1 + 'px';
+                            confetti.style.top = y + Math.sin(angle) * velocity * time * 0.1 - (0.5 * 0.002 * time * time) + 'px';
+                            confetti.style.opacity = 1 - progress;
+                            confetti.style.transform = `rotate(${time * 0.2}deg)`;
+                            
+                            requestAnimationFrame(animate);
+                        };
+                        
+                        animate();
+                    }, i * 100);
+                }
+            }
+            
+            // Final celebration with hearts
+            function startBalloonCelebration() {
+                setInterval(() => {
+                    createBalloon();
+                }, 500);
+            }
+            
+            function createBalloon() {
+                const balloon = document.createElement('div');
+                balloon.className = 'floating-balloon';
+                balloon.style.left = Math.random() * window.innerWidth + 'px';
+                balloon.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 70%)`;
+                
+                document.body.appendChild(balloon);
+                
+                setTimeout(() => {
+                    balloon.remove();
+                }, 5000);
+            }
+            
+            // Make the page interactive
+            document.addEventListener('mousemove', (e) => {
+                if (Math.random() > 0.97) {
+                    createConfetti(e.pageX, e.pageY, `hsl(${Math.random() * 360}, 100%, 70%)`);
+                }
+            });
+
+            // Music control functionality
+            const musicBtn = document.querySelector('.music-control');
+            const birthdaySong = document.getElementById('birthdaySong');
+            
+            musicBtn.addEventListener('click', function() {
+                if (birthdaySong.paused) {
+                    birthdaySong.play();
+                    musicBtn.textContent = '🔊';
+                } else {
+                    birthdaySong.pause();
+                    musicBtn.textContent = '🎵';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
